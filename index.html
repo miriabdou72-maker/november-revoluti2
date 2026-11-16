@@ -21,7 +21,6 @@
             overflow-x: hidden;
         }
 
-        /* الهيدر العلوي */
         header {
             background: rgba(18, 16, 14, 0.95);
             border-bottom: 1px solid #d4af3733;
@@ -81,7 +80,6 @@
             color: #12100e;
         }
 
-        /* القسم الرئيسي (Hero) */
         .hero {
             padding: 60px 5% 40px;
             text-align: center;
@@ -114,25 +112,6 @@
             margin: 0 auto 30px;
         }
 
-        .cta-btn {
-            background: #9c221a;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 15px;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(156, 34, 26, 0.4);
-            transition: transform 0.2s, background 0.2s;
-        }
-
-        .cta-btn:hover {
-            background: #b52920;
-            transform: translateY(-2px);
-        }
-
-        /* شريط الإحصائيات */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -147,11 +126,6 @@
             padding: 25px;
             border-radius: 10px;
             text-align: center;
-            transition: border-color 0.3s;
-        }
-
-        .stat-card:hover {
-            border-color: #d4af3766;
         }
 
         .stat-number {
@@ -173,7 +147,6 @@
             margin-top: 5px;
         }
 
-        /* تصنيفات العرض */
         .filter-section {
             padding: 30px 5% 10px;
             display: flex;
@@ -207,21 +180,19 @@
             font-weight: 600;
         }
 
-        .add-post-btn {
-            background: #27ae60;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
+        .teacher-badge-notice {
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid #d4af37;
+            color: #d4af37;
+            padding: 10px 20px;
+            border-radius: 8px;
             font-size: 13px;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
+            display: none;
             align-items: center;
-            gap: 6px;
+            justify-content: space-between;
+            margin: 20px 5% 0;
         }
 
-        /* شبكة المقالات والمستندات المؤرشفة */
         .archive-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -245,13 +216,13 @@
             border-color: #d4af3744;
         }
 
-        .card-img-container {
+        .card-media-container {
             position: relative;
             height: 200px;
             background: #25201b;
         }
 
-        .card-img-container img {
+        .card-media-container img, .card-media-container video {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -269,6 +240,7 @@
             font-size: 11px;
             font-weight: 600;
             backdrop-filter: blur(5px);
+            z-index: 10;
         }
 
         .card-content {
@@ -302,21 +274,7 @@
             color: #8c8275;
         }
 
-        .view-link {
-            color: #d4af37;
-            text-decoration: none;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-        }
-
-        .view-link:hover {
-            text-decoration: underline;
-        }
-
-        /* نافذة إضافة محتوى جديد (Modal) */
+        /* نوافذ منبثقة (Modals) */
         .modal {
             display: none;
             position: fixed;
@@ -324,7 +282,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
             z-index: 2000;
             justify-content: center;
             align-items: center;
@@ -369,7 +327,7 @@
         }
 
         .form-group textarea {
-            height: 100px;
+            height: 90px;
             resize: vertical;
         }
 
@@ -432,18 +390,26 @@
             </div>
         </div>
         <div class="nav-buttons">
-            <button class="btn-portal" onclick="alert('بوابة الأساتذة والباحثين مخصصة للمشرفين والمؤرخين.')">
+            <button class="btn-portal" onclick="openLoginModal()">
                 🔒 بوابة الأساتذة
             </button>
         </div>
     </header>
 
+    <!-- شريط ترحيب خاص بالأساتذة عند الدخول -->
+    <div id="teacherNotice" class="teacher-badge-notice">
+        <span>✅ مرحباً بك يا أستاذ! تم تفعيل صلاحيات رفع الفيديوهات والشهادات من هاتفك مباشرة.</span>
+        <button onclick="logoutTeacher()" style="background:none; border:1px solid #d4af37; color:#d4af37; padding:3px 10px; border-radius:4px; cursor:pointer;">خروج</button>
+    </div>
+
     <!-- القسم الرئيسي -->
     <section class="hero">
         <span class="badge-tag">⭐ ١٩٠٤ - ١٩٦٢ · أرشيف الثورة التحريرية</span>
         <h2>ذاكرة الثورة الجزائرية</h2>
-        <p>سبع سنوات ونصف من الكفاخ، ومليون ونصف شهيد... هنا تُحفظ أصوات المجاهدين وصورهم وشهاداتهم، لتبقى الذاكرة حية بين الأجيال.</p>
-        <button class="cta-btn" onclick="openModal()">+ أضف شهادة أو وثيقة جديدة</button>
+        <p>سبع سنوات ونصف من الكفاح، ومليون ونصف شهيد... هنا تُحفظ أصوات المجاهدين وصورهم وشهاداتهم، لتبقى الذاكرة حية بين الأجيال.</p>
+        <button id="mainUploadBtn" class="btn-portal" style="background:#d4af37; color:#12100e; font-weight:bold; margin: 0 auto; display:none;" onclick="openUploadModal()">
+            📹 رفع فيديو أو مستند جديد من الهاتف
+        </button>
     </section>
 
     <!-- شريط الإحصائيات -->
@@ -474,49 +440,71 @@
     <div class="filter-section">
         <div class="filters">
             <button class="filter-btn active" onclick="filterArchive('all', this)">الكل</button>
+            <button class="filter-btn" onclick="filterArchive('فيديوهات', this)">📹 فيديوهات تاريخية</button>
             <button class="filter-btn" onclick="filterArchive('شهادات', this)">شهادات المجاهدين</button>
             <button class="filter-btn" onclick="filterArchive('معارك', this)">معارك وثورات</button>
             <button class="filter-btn" onclick="filterArchive('وثائق', this)">وثائق تاريخية</button>
-            <button class="filter-btn" onclick="filterArchive('صور', this)">صور أرشيفية</button>
         </div>
-        <button class="add-post-btn" onclick="openModal()">📝 نشر عنصر جديد</button>
+        <button id="secondaryUploadBtn" style="display:none;" class="btn-portal" onclick="openUploadModal()">
+            + رفع ملف أو فيديو جديد
+        </button>
     </div>
 
-    <!-- شبكة عرض الأرشيف (تتحدث تلقائياً) -->
+    <!-- شبكة عرض الأرشيف -->
     <div class="archive-grid" id="archiveGrid">
-        <!-- يتم ملء العناصر هنا ديناميكياً -->
+        <!-- يتم تعبئتها ديناميكياً -->
     </div>
 
-    <!-- نافذة الإضافة (Modal) -->
-    <div class="modal" id="postModal">
+    <!-- نافذة تسجيل دخول الأساتذة -->
+    <div class="modal" id="loginModal">
         <div class="modal-content">
-            <button class="close-modal" onclick="closeModal()">&times;</button>
-            <h3>إضافة مادة جديدة للأرشيف</h3>
-            <form id="archiveForm" onsubmit="savePost(event)">
+            <button class="close-modal" onclick="closeModals()">&times;</button>
+            <h3>تسجيل دخول الأساتذة</h3>
+            <p style="font-size: 13px; color: #a89f91; margin-bottom: 15px;">الرجاء إدخال كلمة المرور المخصصة للأساتذة لفتح صلاحيات الرفع المباشر.</p>
+            <form onsubmit="handleTeacherLogin(event)">
                 <div class="form-group">
-                    <label>عنوان المادة أو القصة:</label>
-                    <input type="text" id="postTitle" required placeholder="مثال: معركة الجزائر، شهادة المجاهد...">
+                    <label>كلمة المرور:</label>
+                    <input type="password" id="teacherPass" required placeholder="أدخل كلمة المرور...">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="closeModals()">إلغاء</button>
+                    <button type="submit" class="btn-submit">دخول</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- نافذة رفع الملفات والفيديوهات المباشرة من الهاتف -->
+    <div class="modal" id="uploadModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModals()">&times;</button>
+            <h3>رفع فيديو أو ملف من هاتفك</h3>
+            <form id="uploadForm" onsubmit="saveNewMedia(event)">
+                <div class="form-group">
+                    <label>عنوان المادة أو الفيديو:</label>
+                    <input type="text" id="mediaTitle" required placeholder="مثال: شهادة حية للمجاهد...">
                 </div>
                 <div class="form-group">
                     <label>التصنيف:</label>
-                    <select id="postCategory">
+                    <select id="mediaCategory">
+                        <option value="فيديوهات">فيديو تاريخي</option>
                         <option value="شهادات">شهادات المجاهدين</option>
                         <option value="معارك">معارك وثورات</option>
                         <option value="وثائق">وثائق تاريخية</option>
-                        <option value="صور">صور أرشيفية</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>رابط الصورة (اختياري):</label>
-                    <input type="url" id="postImage" placeholder="ضع رابط صورة تناسب الموضوع أو اتركه فارغاً">
+                    <label>اختر الفيديو أو الملف من هاتفك:</label>
+                    <input type="file" id="mediaFile" accept="video/*,image/*" required style="padding: 7px; background:#12100e;">
+                    <small style="color: #8c8275; font-size: 11px; display:block; margin-top:4px;">يمكنك اختيار فيديو أو صورة مباشرة من الاستوديو.</small>
                 </div>
                 <div class="form-group">
-                    <label>النص أو التفاصيل:</label>
-                    <textarea id="postDesc" required placeholder="اكتب تفاصيل الشهادة أو الحدث التاريخي..."></textarea>
+                    <label>نبذة أو تفاصيل المحتوى:</label>
+                    <textarea id="mediaDesc" required placeholder="اكتب وصفاً مختصراً للحدث أو الفيديو..."></textarea>
                 </div>
                 <div class="modal-actions">
-                    <button type="button" class="btn-cancel" onclick="closeModal()">إلغاء</button>
-                    <button type="submit" class="btn-submit">نشر فوري</button>
+                    <button type="button" class="btn-cancel" onclick="closeModals()">إلغاء</button>
+                    <button type="submit" class="btn-submit">رفع ونشر فوري</button>
                 </div>
             </form>
         </div>
@@ -527,33 +515,133 @@
     </footer>
 
     <script>
-        // قاعدة البيانات الافتراضية الأولية
+        // كلمة المرور الخاصة بالأساتذة (يمكنك تعديلها هنا إن أردت)
+        const TEACHER_PASSWORD = "prof123";
+
+        // بيانات أولية للموقع
         const defaultItems = [
             {
                 id: 1,
                 title: "خليج الجزائر في خمسينيات القرن الماضي",
-                category: "صور",
-                image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80",
+                category: "وثائق",
+                type: "image",
+                src: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80",
                 desc: "صورة أرشيفية لبيوت القصبة المطلة على البحر المتوسط، قبل أن تغيرها سنوات الحرب."
             },
             {
                 id: 2,
-                title: "وثائق وقلم من أرشيف الثورة",
-                category: "وثائق",
-                image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80",
-                desc: "خريطة للأطلس، رسالة بخط اليد، وأدوات كان المجاهدون يستخدمونها في التخطيط."
-            },
-            {
-                id: 3,
-                title: "شهادة حية من الولاية التاريخية الخامسة",
-                category: "شهادات",
-                image: "https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=600&q=80",
-                desc: "تسجيل صوتي ومرئي يحكي تفاصيل المعارك الكبرى وطريقة التنسيق السري بين الخلايا الفدائية."
+                title: "مقتطف من أرشيف الثورة التحريرية",
+                category: "فيديوهات",
+                type: "video",
+                src: "https://www.w3schools.com/html/mov_bbb.mp4", // نموذج فيديو افتراضي تجريبي
+                desc: "مقطع فيديو توثيقي يبرز التحضيرات الأولى لاندلاع الثورة المباركة."
             }
         ];
 
-        // جلب البيانات المخزنة محلياً لضمان بقاء المنشورات وظهورها
-        let items = JSON.parse(localStorage.getItem('algerian_archive_posts')) || defaultItems;
+        let items = JSON.parse(localStorage.getItem('algerian_archive_media')) || defaultItems;
+        let isTeacherLoggedIn = localStorage.getItem('teacher_logged_in') === 'true';
+
+        // التحقق من حالة الدخول عند تحميل الصفحة
+        window.onload = function() {
+            updateTeacherUI();
+            renderArchive('all');
+        }
+
+        function updateTeacherUI() {
+            const notice = document.getElementById('teacherNotice');
+            const mainBtn = document.getElementById('mainUploadBtn');
+            const secBtn = document.getElementById('secondaryUploadBtn');
+
+            if (isTeacherLoggedIn) {
+                notice.style.display = 'flex';
+                mainBtn.style.display = 'block';
+                secBtn.style.display = 'block';
+            } else {
+                notice.style.display = 'none';
+                mainBtn.style.display = 'none';
+                secBtn.style.display = 'none';
+            }
+        }
+
+        function openLoginModal() {
+            if (isTeacherLoggedIn) {
+                alert('أنت مسجل الدخول بالفعل كأستاذ!');
+                return;
+            }
+            document.getElementById('loginModal').style.display = 'flex';
+        }
+
+        function handleTeacherLogin(e) {
+            e.preventDefault();
+            const pass = document.getElementById('teacherPass').value;
+            if (pass === TEACHER_PASSWORD) {
+                isTeacherLoggedIn = true;
+                localStorage.setItem('teacher_logged_in', 'true');
+                closeModals();
+                updateTeacherUI();
+                alert('مرحباً بك أستاذنا الفاضل! تم تسجيل الدخول بنجاح.');
+            } else {
+                alert('كلمة المرور غير صحيحة!');
+            }
+        }
+
+        function logoutTeacher() {
+            isTeacherLoggedIn = false;
+            localStorage.setItem('teacher_logged_in', 'false');
+            updateTeacherUI();
+            alert('تم تسجيل الخروج بنجاح.');
+        }
+
+        function openUploadModal() {
+            if (!isTeacherLoggedIn) {
+                openLoginModal();
+                return;
+            }
+            document.getElementById('uploadModal').style.display = 'flex';
+        }
+
+        function closeModals() {
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('uploadModal').style.display = 'none';
+        }
+
+        // قراءة الملف المرفوع من هاتف الأستاذ وتحويله محلياً ليظهر للجميع
+        function saveNewMedia(e) {
+            e.preventDefault();
+            const title = document.getElementById('mediaTitle').value;
+            const category = document.getElementById('mediaCategory').value;
+            const desc = document.getElementById('mediaDesc').value;
+            const fileInput = document.getElementById('mediaFile');
+
+            if (fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+
+                reader.onload = function(uploadEvent) {
+                    const fileDataUrl = uploadEvent.target.result;
+                    const isVideo = file.type.startsWith('video');
+
+                    const newEntry = {
+                        id: Date.now(),
+                        title: title,
+                        category: category,
+                        type: isVideo ? 'video' : 'image',
+                        src: fileDataUrl,
+                        desc: desc
+                    };
+
+                    items.push(newEntry);
+                    localStorage.setItem('algerian_archive_media', JSON.stringify(items));
+
+                    closeModals();
+                    document.getElementById('uploadForm').reset();
+                    renderArchive('all');
+                    alert('تم رفع ونشر الملف/الفيديو بنجاح وأصبح متاحاً للجميع!');
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
 
         function renderArchive(filter = 'all') {
             const grid = document.getElementById('archiveGrid');
@@ -562,24 +650,39 @@
             const filtered = filter === 'all' ? items : items.filter(i => i.category === filter);
 
             if (filtered.length === 0) {
-                grid.innerHTML = '<p style="color: #8c8275; text-align: center; grid-column: 1/-1; padding: 40px;">لا توجد منشورات في هذا التصنيف حالياً. كن أول من ينشر!</p>';
+                grid.innerHTML = '<p style="color: #8c8275; text-align: center; grid-column: 1/-1; padding: 40px;">لا توجد مواد منشورة في هذا التصنيف حالياً.</p>';
                 return;
             }
 
             filtered.reverse().forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'archive-card';
+
+                let mediaHTML = '';
+                if (item.type === 'video') {
+                    mediaHTML = `
+                        <div class="card-media-container">
+                            <span class="card-tag">${item.category}</span>
+                            <video controls src="${item.src}" style="width:100%; height:100%; object-fit:cover;"></video>
+                        </div>
+                    `;
+                } else {
+                    mediaHTML = `
+                        <div class="card-media-container">
+                            <span class="card-tag">${item.category}</span>
+                            <img src="${item.src}" alt="${item.title}">
+                        </div>
+                    `;
+                }
+
                 card.innerHTML = `
-                    <div class="card-img-container">
-                        <img src="${item.image || 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80'}" alt="${item.title}">
-                        <span class="card-tag">${item.category}</span>
-                    </div>
+                    ${mediaHTML}
                     <div class="card-content">
                         <h3 class="card-title">${item.title}</h3>
                         <p class="card-desc">${item.desc}</p>
                         <div class="card-footer">
-                            <span>أرشيف الموقع</span>
-                            <span class="view-link" onclick="viewDetail('${item.title.replace(/'/g, "")}', '${item.desc.replace(/'/g, "")}')">عرض التفاصيل ←</span>
+                            <span>بواسطة الأساتذة</span>
+                            <span style="color:#d4af37; font-weight:600;">أرشيف رسمي</span>
                         </div>
                     </div>
                 `;
@@ -592,46 +695,6 @@
             btn.classList.add('active');
             renderArchive(cat);
         }
-
-        function openModal() {
-            document.getElementById('postModal').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('postModal').style.display = 'none';
-        }
-
-        function savePost(e) {
-            e.preventDefault();
-            const title = document.getElementById('postTitle').value;
-            const category = document.getElementById('postCategory').value;
-            const image = document.getElementById('postImage').value;
-            const desc = document.getElementById('postDesc').value;
-
-            const newPost = {
-                id: Date.now(),
-                title,
-                category,
-                image,
-                desc
-            };
-
-            items.push(newPost);
-            localStorage.setItem('algerian_archive_posts', JSON.stringify(items));
-
-            closeModal();
-            document.getElementById('archiveForm').reset();
-            renderArchive('all');
-            
-            alert('تم نشر المحتوى بنجاح! أصبح الآن محفوظاً وظاهراً في الأرشيف.');
-        }
-
-        function viewDetail(title, desc) {
-            alert(title + "\n\n" + desc);
-        }
-
-        // تشغيل العرض عند تحميل الصفحة
-        renderArchive();
     </script>
 </body>
 </html>
