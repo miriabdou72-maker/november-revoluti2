@@ -56,11 +56,6 @@
             color: #a89f91;
         }
 
-        .nav-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
         .btn-portal {
             background: transparent;
             border: 1px solid #d4af37;
@@ -277,10 +272,7 @@
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85);
             z-index: 2000;
             justify-content: center;
@@ -358,42 +350,9 @@
 
         .close-modal {
             position: absolute;
-            top: 15px;
-            left: 15px;
-            background: none;
-            border: none;
-            color: #8c8275;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        /* مؤشر التحميل عند الرفع السحابي */
-        #loadingOverlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 3000;
-            justify-content: center;
-            align-items: center;
-            color: #d4af37;
-            font-size: 20px;
-            font-weight: bold;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .spinner {
-            border: 4px solid #2a231d;
-            width: 50px; height: 50px;
-            border-radius: 50%;
-            border-left-color: #d4af37;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            top: 15px; left: 15px;
+            background: none; border: none;
+            color: #8c8275; font-size: 20px; cursor: pointer;
         }
 
         footer {
@@ -407,12 +366,6 @@
     </style>
 </head>
 <body>
-
-    <!-- مؤشر التحميل السحابي -->
-    <div id="loadingOverlay">
-        <div class="spinner"></div>
-        <span>جارٍ رفع الفيديو ونشره سحابياً لجميع الزوار...</span>
-    </div>
 
     <header>
         <div class="logo-area">
@@ -430,7 +383,7 @@
     </header>
 
     <div id="teacherNotice" class="teacher-badge-notice">
-        <span>✅ مرحباً بك يا أستاذ! صلاحيات النشر الفوري السحابي مفعلة الآن.</span>
+        <span>✅ مرحباً بك يا أستاذ! صلاحيات النشر الفوري مفعلة.</span>
         <button onclick="logoutTeacher()" style="background:none; border:1px solid #d4af37; color:#d4af37; padding:3px 10px; border-radius:4px; cursor:pointer;">خروج</button>
     </div>
 
@@ -439,7 +392,7 @@
         <h2>ذاكرة الثورة الجزائرية</h2>
         <p>سبع سنوات ونصف من الكفاح، ومليون ونصف شهيد... هنا تُحفظ أصوات المجاهدين وصورهم وشهاداتهم، لتبقى الذاكرة حية بين الأجيال.</p>
         <button id="mainUploadBtn" class="btn-portal" style="background:#d4af37; color:#12100e; font-weight:bold; margin: 0 auto; display:none;" onclick="openUploadModal()">
-            📹 رفع فيديو أو مستند جديد من الهاتف
+            + نشر مادة أو صورة جديدة
         </button>
     </section>
 
@@ -469,25 +422,26 @@
     <div class="filter-section">
         <div class="filters">
             <button class="filter-btn active" onclick="filterArchive('all', this)">الكل</button>
-            <button class="filter-btn" onclick="filterArchive('فيديوهات', this)">📹 فيديوهات تاريخية</button>
+            <button class="filter-btn" onclick="filterArchive('صور', this)">🖼️ صور أرشيفية</button>
             <button class="filter-btn" onclick="filterArchive('شهادات', this)">شهادات المجاهدين</button>
             <button class="filter-btn" onclick="filterArchive('معارك', this)">معارك وثورات</button>
             <button class="filter-btn" onclick="filterArchive('وثائق', this)">وثائق تاريخية</button>
         </div>
         <button id="secondaryUploadBtn" style="display:none;" class="btn-portal" onclick="openUploadModal()">
-            + رفع ملف أو فيديو جديد
+            + نشر جديد
         </button>
     </div>
 
     <div class="archive-grid" id="archiveGrid">
-        <p style="color: #8c8275; text-align: center; grid-column: 1/-1; padding: 40px;">جاري تحميل الأرشيف من السحابة...</p>
+        <!-- يعرض المحتوى ديناميكياً -->
     </div>
 
+    <!-- نافذة تسجيل الدخول -->
     <div class="modal" id="loginModal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeModals()">&times;</button>
             <h3>تسجيل دخول الأساتذة</h3>
-            <p style="font-size: 13px; color: #a89f91; margin-bottom: 15px;">أدخل كلمة المرور لتفعيل خاصية النشر الفوري للجميع.</p>
+            <p style="font-size: 13px; color: #a89f91; margin-bottom: 15px;">كلمة المرور التجريبية هي: <b>prof123</b></p>
             <form onsubmit="handleTeacherLogin(event)">
                 <div class="form-group">
                     <label>كلمة المرور:</label>
@@ -501,79 +455,69 @@
         </div>
     </div>
 
+    <!-- نافذة النشر -->
     <div class="modal" id="uploadModal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeModals()">&times;</button>
-            <h3>رفع فيديو أو ملف من هاتفك</h3>
+            <h3>نشر مادة جديدة للأرشيف</h3>
             <form id="uploadForm" onsubmit="saveNewMedia(event)">
                 <div class="form-group">
-                    <label>عنوان المادة أو الفيديو:</label>
-                    <input type="text" id="mediaTitle" required placeholder="مثال: شهادة حية للمجاهد...">
+                    <label>عنوان المادة:</label>
+                    <input type="text" id="mediaTitle" required placeholder="مثال: معركة الجزائر...">
                 </div>
                 <div class="form-group">
                     <label>التصنيف:</label>
                     <select id="mediaCategory">
-                        <option value="فيديوهات">فيديو تاريخي</option>
+                        <option value="صور">صورة أرشيفية</option>
                         <option value="شهادات">شهادات المجاهدين</option>
                         <option value="معارك">معارك وثورات</option>
                         <option value="وثائق">وثائق تاريخية</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>اختر الفيديو أو الصورة من هاتفك:</label>
-                    <input type="file" id="mediaFile" accept="video/*,image/*" required style="padding: 7px; background:#12100e;">
-                    <small style="color: #8c8275; font-size: 11px; display:block; margin-top:4px;">سيتم نشر الملف سحابياً ليراه كل من يفتح الموقع.</small>
+                    <label>اختر صورة من هاتفك:</label>
+                    <input type="file" id="mediaFile" accept="image/*" required style="padding: 7px; background:#12100e;">
+                    <small style="color: #8c8275; font-size: 11px; display:block; margin-top:4px;">اختر صورة واضحة لتظهر مباشرة.</small>
                 </div>
                 <div class="form-group">
-                    <label>نبذة أو تفاصيل المحتوى:</label>
-                    <textarea id="mediaDesc" required placeholder="اكتب وصفاً مختصراً للحدث..."></textarea>
+                    <label>تفاصيل الحدث:</label>
+                    <textarea id="mediaDesc" required placeholder="اكتب نبذة مختصرة..."></textarea>
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn-cancel" onclick="closeModals()">إلغاء</button>
-                    <button type="submit" class="btn-submit">رفع ونشر سحابي</button>
+                    <button type="submit" class="btn-submit">نشر فوري</button>
                 </div>
             </form>
         </div>
     </div>
 
     <footer>
-        <p>أرشيف الثورة الجزائرية © ١٩٥٤ - ١٩٦٢ — ذاكرة الأمة محفوظة كي لا يطويها النسيان.</p>
+        <p>أرشيف الثورة الجزائرية © ١٩٥٤ - ١٩٦٢ — ذاكرة الأمة محفوظة.</p>
     </footer>
 
     <script>
         const TEACHER_PASSWORD = "prof123";
-        // استخدام خدمة سحابية عامة مجانية لحفظ المنشورات وجعلها مرئية للجميع
-        const BIN_URL = "https://api.jsonbin.io/v3/b/660c1537acd3cb34a835a643"; 
-        // ملاحظة: تم ضبط التخزين ليعمل افتراضياً عبر السحابة والتخزين المحلي المتزامن لضمان سرعة العرض والنشر الفوري.
-
         let items = [];
         let isTeacherLoggedIn = localStorage.getItem('teacher_logged_in') === 'true';
 
         window.onload = function() {
             updateTeacherUI();
-            loadArchiveData();
+            loadData();
         }
 
-        async function loadArchiveData() {
-            // بيانات افتراضية نقية وخالية من الفيديوهات الخارجية
+        function loadData() {
             const defaultItems = [
                 {
                     id: 1,
                     title: "خليج الجزائر في خمسينيات القرن الماضي",
-                    category: "وثائق",
-                    type: "image",
+                    category: "صور",
                     src: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80",
                     desc: "صورة أرشيفية لبيوت القصبة المطلة على البحر المتوسط، قبل أن تغيرها سنوات الحرب."
                 }
             ];
 
-            // جلب البيانات من التخزين المشترك أو السحابة
-            const saved = localStorage.getItem('algerian_archive_cloud_data');
-            if (saved) {
-                items = JSON.parse(saved);
-            } else {
-                items = defaultItems;
-            }
+            const saved = localStorage.getItem('algerian_archive_items_v2');
+            items = saved ? JSON.parse(saved) : defaultItems;
             renderArchive('all');
         }
 
@@ -609,9 +553,9 @@
                 localStorage.setItem('teacher_logged_in', 'true');
                 closeModals();
                 updateTeacherUI();
-                alert('مرحباً بك أستاذنا الفاضل! تم تفعيل صلاحيات النشر بنجاح.');
+                alert('مرحباً بك أستاذنا الفاضل! تم تفعيل النشر بنجاح.');
             } else {
-                alert('كلمة المرور غير صحيحة!');
+                alert('كلمة المرور غير صحيحة! كلمة المرور هي prof123');
             }
         }
 
@@ -644,35 +588,24 @@
 
             if (fileInput.files && fileInput.files[0]) {
                 const file = fileInput.files[0];
-                
-                // إظهار شاشة التحميل
-                document.getElementById('loadingOverlay').style.display = 'flex';
-
                 const reader = new FileReader();
-                reader.onload = function(uploadEvent) {
-                    const fileDataUrl = uploadEvent.target.result;
-                    const isVideo = file.type.startsWith('video');
 
+                reader.onload = function(uploadEvent) {
                     const newEntry = {
                         id: Date.now(),
                         title: title,
                         category: category,
-                        type: isVideo ? 'video' : 'image',
-                        src: fileDataUrl,
+                        src: uploadEvent.target.result,
                         desc: desc
                     };
 
                     items.push(newEntry);
-                    // حفظ البيانات محلياً وسحابياً للمتصفحين
-                    localStorage.setItem('algerian_archive_cloud_data', JSON.stringify(items));
+                    localStorage.setItem('algerian_archive_items_v2', JSON.stringify(items));
 
-                    setTimeout(() => {
-                        document.getElementById('loadingOverlay').style.display = 'none';
-                        closeModals();
-                        document.getElementById('uploadForm').reset();
-                        renderArchive('all');
-                        alert('تم رفع ونشر الفيديو/الملف بنجاح وأصبح متاحاً للرؤية العامة!');
-                    }, 800);
+                    closeModals();
+                    document.getElementById('uploadForm').reset();
+                    renderArchive('all');
+                    alert('تم نشر المادة بنجاح وأصبحت مرئية في الأرشيف!');
                 };
 
                 reader.readAsDataURL(file);
@@ -693,26 +626,11 @@
             filtered.reverse().forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'archive-card';
-
-                let mediaHTML = '';
-                if (item.type === 'video') {
-                    mediaHTML = `
-                        <div class="card-media-container">
-                            <span class="card-tag">${item.category}</span>
-                            <video controls src="${item.src}" style="width:100%; height:100%; object-fit:cover;"></video>
-                        </div>
-                    `;
-                } else {
-                    mediaHTML = `
-                        <div class="card-media-container">
-                            <span class="card-tag">${item.category}</span>
-                            <img src="${item.src}" alt="${item.title}">
-                        </div>
-                    `;
-                }
-
                 card.innerHTML = `
-                    ${mediaHTML}
+                    <div class="card-media-container">
+                        <span class="card-tag">${item.category}</span>
+                        <img src="${item.src}" alt="${item.title}">
+                    </div>
                     <div class="card-content">
                         <h3 class="card-title">${item.title}</h3>
                         <p class="card-desc">${item.desc}</p>
