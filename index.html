@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أرشيف الثورة الجزائرية - ذاكرة المجاهدين</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: #12100e;
+            color: #e6dfd5;
+            line-height: 1.6;
+            direction: rtl;
+            overflow-x: hidden;
+        }
+
+        /* الهيدر العلوي */
+        header {
+            background: rgba(18, 16, 14, 0.95);
+            border-bottom: 1px solid #d4af3733;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 24px;
+            color: #d4af37;
+        }
+
+        .logo-title h1 {
+            font-size: 18px;
+            color: #f3efe6;
+            font-weight: 700;
+        }
+
+        .logo-title p {
+            font-size: 11px;
+            color: #a89f91;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-portal {
+            background: transparent;
+            border: 1px solid #d4af37;
+            color: #d4af37;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-portal:hover {
+            background: #d4af37;
+            color: #12100e;
+        }
+
+        /* القسم الرئيسي (Hero) */
+        .hero {
+            padding: 60px 5% 40px;
+            text-align: center;
+            background: radial-gradient(circle at center, #231c15 0%, #12100e 70%);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .badge-tag {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.1);
+            color: #d4af37;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .hero h2 {
+            font-size: 32px;
+            color: #f3efe6;
+            margin-bottom: 15px;
+            font-weight: 900;
+        }
+
+        .hero p {
+            font-size: 15px;
+            color: #b8b0a2;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .cta-btn {
+            background: #9c221a;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(156, 34, 26, 0.4);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .cta-btn:hover {
+            background: #b52920;
+            transform: translateY(-2px);
+        }
+
+        /* شريط الإحصائيات */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 40px 5%;
+            background: #171412;
+        }
+
+        .stat-card {
+            background: #1e1915;
+            border: 1px solid #d4af3722;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: #d4af3766;
+        }
+
+        .stat-number {
+            font-size: 26px;
+            color: #d4af37;
+            font-weight: 900;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #e6dfd5;
+            font-weight: 600;
+        }
+
+        .stat-sub {
+            font-size: 11px;
+            color: #8c8275;
+            margin-top: 5px;
+        }
+
+        /* تصنيفات العرض */
+        .filter-section {
+            padding: 30px 5% 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: #1c1815;
+            border: 1px solid #332d26;
+            color: #b8b0a2;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: #d4af37;
+            color: #12100e;
+            border-color: #d4af37;
+            font-weight: 600;
+        }
+
+        .add-post-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* شبكة المقالات والمستندات المؤرشفة */
+        .archive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            padding: 20px 5% 60px;
+        }
+
+        .archive-card {
+            background: #1a1613;
+            border: 1px solid #2d2620;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .archive-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            border-color: #d4af3744;
+        }
+
+        .card-img-container {
+            position: relative;
+            height: 200px;
+            background: #25201b;
+        }
+
+        .card-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(18, 16, 14, 0.85);
+            border: 1px solid #d4af37;
+            color: #d4af37;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            backdrop-filter: blur(5px);
+        }
+
+        .card-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 18px;
+            color: #f3efe6;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .card-desc {
+            font-size: 13px;
+            color: #a89f91;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #2a231d;
+            padding-top: 15px;
+            font-size: 12px;
+            color: #8c8275;
+        }
+
+        .view-link {
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .view-link:hover {
+            text-decoration: underline;
+        }
+
+        /* نافذة إضافة محتوى جديد (Modal) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #1a1613;
+            border: 1px solid #d4af3755;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .modal-content h3 {
+            color: #f3efe6;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            color: #b8b0a2;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            background: #12100e;
+            border: 1px solid #332d26;
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-cancel {
+            background: transparent;
+            border: 1px solid #555;
+            color: #ccc;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .btn-submit {
+            background: #d4af37;
+            color: #12100e;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: none;
+            border: none;
+            color: #8c8275;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: #0d0b0a;
+            color: #6b6256;
+            font-size: 12px;
+            border-top: 1px solid #201a16;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر العلوي -->
+    <header>
+        <div class="logo-area">
+            <div class="logo-icon">☪</div>
+            <div class="logo-title">
+                <h1>أرشيف الثورة الجزائرية</h1>
+                <p>ذاكرة المجاهدين ١٩٥٤ - ١٩٦٢</p>
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn-portal" onclick="alert('بوابة الأساتذة والباحثين مخصصة للمشرفين والمؤرخين.')">
+                🔒 بوابة الأساتذة
+            </button>
+        </div>
+    </header>
+
+    <!-- القسم الرئيسي -->
+    <section class="hero">
+        <span class="badge-tag">⭐ ١٩٠٤ - ١٩٦٢ · أرشيف الثورة التحريرية</span>
+        <h2>ذاكرة الثورة الجزائرية</h2>
+        <p>سبع سنوات ونصف من الكفاخ، ومليون ونصف شهيد... هنا تُحفظ أصوات المجاهدين وصورهم وشهاداتهم، لتبقى الذاكرة حية بين الأجيال.</p>
+        <button class="cta-btn" onclick="openModal()">+ أضف شهادة أو وثيقة جديدة</button>
+    </section>
+
+    <!-- شريط الإحصائيات -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number">١ نوفمبر ١٩٥٤</div>
+            <div class="stat-label">انطلاق الثورة</div>
+            <div class="stat-sub">ليلة الاثنين، نداء أول</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">١٣٢</div>
+            <div class="stat-label">سنة من الاحتلال</div>
+            <div class="stat-sub">١٨٣٠ - ١٩٦٢</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">مليون ونصف</div>
+            <div class="stat-label">شهيد وشهيدة</div>
+            <div class="stat-sub">دماء صنعت الحرية</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">٧ سنوات ونصف</div>
+            <div class="stat-label">من الكفاح المسلّح</div>
+            <div class="stat-sub">حتى استقلال ٥ جويليا ١٩٦٢</div>
+        </div>
+    </div>
+
+    <!-- أزرار التصفية -->
+    <div class="filter-section">
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterArchive('all', this)">الكل</button>
+            <button class="filter-btn" onclick="filterArchive('شهادات', this)">شهادات المجاهدين</button>
+            <button class="filter-btn" onclick="filterArchive('معارك', this)">معارك وثورات</button>
+            <button class="filter-btn" onclick="filterArchive('وثائق', this)">وثائق تاريخية</button>
+            <button class="filter-btn" onclick="filterArchive('صور', this)">صور أرشيفية</button>
+        </div>
+        <button class="add-post-btn" onclick="openModal()">📝 نشر عنصر جديد</button>
+    </div>
+
+    <!-- شبكة عرض الأرشيف (تتحدث تلقائياً) -->
+    <div class="archive-grid" id="archiveGrid">
+        <!-- يتم ملء العناصر هنا ديناميكياً -->
+    </div>
+
+    <!-- نافذة الإضافة (Modal) -->
+    <div class="modal" id="postModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <h3>إضافة مادة جديدة للأرشيف</h3>
+            <form id="archiveForm" onsubmit="savePost(event)">
+                <div class="form-group">
+                    <label>عنوان المادة أو القصة:</label>
+                    <input type="text" id="postTitle" required placeholder="مثال: معركة الجزائر، شهادة المجاهد...">
+                </div>
+                <div class="form-group">
+                    <label>التصنيف:</label>
+                    <select id="postCategory">
+                        <option value="شهادات">شهادات المجاهدين</option>
+                        <option value="معارك">معارك وثورات</option>
+                        <option value="وثائق">وثائق تاريخية</option>
+                        <option value="صور">صور أرشيفية</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>رابط الصورة (اختياري):</label>
+                    <input type="url" id="postImage" placeholder="ضع رابط صورة تناسب الموضوع أو اتركه فارغاً">
+                </div>
+                <div class="form-group">
+                    <label>النص أو التفاصيل:</label>
+                    <textarea id="postDesc" required placeholder="اكتب تفاصيل الشهادة أو الحدث التاريخي..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">إلغاء</button>
+                    <button type="submit" class="btn-submit">نشر فوري</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>أرشيف الثورة الجزائرية © ١٩٥٤ - ١٩٦٢ — ذاكرة الأمة محفوظة كي لا يطويها النسيان.</p>
+    </footer>
+
+    <script>
+        // قاعدة البيانات الافتراضية الأولية
+        const defaultItems = [
+            {
+                id: 1,
+                title: "خليج الجزائر في خمسينيات القرن الماضي",
+                category: "صور",
+                image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80",
+                desc: "صورة أرشيفية لبيوت القصبة المطلة على البحر المتوسط، قبل أن تغيرها سنوات الحرب."
+            },
+            {
+                id: 2,
+                title: "وثائق وقلم من أرشيف الثورة",
+                category: "وثائق",
+                image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80",
+                desc: "خريطة للأطلس، رسالة بخط اليد، وأدوات كان المجاهدون يستخدمونها في التخطيط."
+            },
+            {
+                id: 3,
+                title: "شهادة حية من الولاية التاريخية الخامسة",
+                category: "شهادات",
+                image: "https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=600&q=80",
+                desc: "تسجيل صوتي ومرئي يحكي تفاصيل المعارك الكبرى وطريقة التنسيق السري بين الخلايا الفدائية."
+            }
+        ];
+
+        // جلب البيانات المخزنة محلياً لضمان بقاء المنشورات وظهورها
+        let items = JSON.parse(localStorage.getItem('algerian_archive_posts')) || defaultItems;
+
+        function renderArchive(filter = 'all') {
+            const grid = document.getElementById('archiveGrid');
+            grid.innerHTML = '';
+
+            const filtered = filter === 'all' ? items : items.filter(i => i.category === filter);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<p style="color: #8c8275; text-align: center; grid-column: 1/-1; padding: 40px;">لا توجد منشورات في هذا التصنيف حالياً. كن أول من ينشر!</p>';
+                return;
+            }
+
+            filtered.reverse().forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'archive-card';
+                card.innerHTML = `
+                    <div class="card-img-container">
+                        <img src="${item.image || 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80'}" alt="${item.title}">
+                        <span class="card-tag">${item.category}</span>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${item.title}</h3>
+                        <p class="card-desc">${item.desc}</p>
+                        <div class="card-footer">
+                            <span>أرشيف الموقع</span>
+                            <span class="view-link" onclick="viewDetail('${item.title.replace(/'/g, "")}', '${item.desc.replace(/'/g, "")}')">عرض التفاصيل ←</span>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterArchive(cat, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderArchive(cat);
+        }
+
+        function openModal() {
+            document.getElementById('postModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('postModal').style.display = 'none';
+        }
+
+        function savePost(e) {
+            e.preventDefault();
+            const title = document.getElementById('postTitle').value;
+            const category = document.getElementById('postCategory').value;
+            const image = document.getElementById('postImage').value;
+            const desc = document.getElementById('postDesc').value;
+
+            const newPost = {
+                id: Date.now(),
+                title,
+                category,
+                image,
+                desc
+            };
+
+            items.push(newPost);
+            localStorage.setItem('algerian_archive_posts', JSON.stringify(items));
+
+            closeModal();
+            document.getElementById('archiveForm').reset();
+            renderArchive('all');
+            
+            alert('تم نشر المحتوى بنجاح! أصبح الآن محفوظاً وظاهراً في الأرشيف.');
+        }
+
+        function viewDetail(title, desc) {
+            alert(title + "\n\n" + desc);
+        }
+
+        // تشغيل العرض عند تحميل الصفحة
+        renderArchive();
+    </script>
+</body>
+</html>
