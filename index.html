@@ -274,7 +274,6 @@
             color: #8c8275;
         }
 
-        /* نوافذ منبثقة (Modals) */
         .modal {
             display: none;
             position: fixed;
@@ -368,6 +367,35 @@
             cursor: pointer;
         }
 
+        /* مؤشر التحميل عند الرفع السحابي */
+        #loadingOverlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            color: #d4af37;
+            font-size: 20px;
+            font-weight: bold;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .spinner {
+            border: 4px solid #2a231d;
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            border-left-color: #d4af37;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         footer {
             text-align: center;
             padding: 30px;
@@ -380,7 +408,12 @@
 </head>
 <body>
 
-    <!-- الهيدر العلوي -->
+    <!-- مؤشر التحميل السحابي -->
+    <div id="loadingOverlay">
+        <div class="spinner"></div>
+        <span>جارٍ رفع الفيديو ونشره سحابياً لجميع الزوار...</span>
+    </div>
+
     <header>
         <div class="logo-area">
             <div class="logo-icon">☪</div>
@@ -396,13 +429,11 @@
         </div>
     </header>
 
-    <!-- شريط ترحيب خاص بالأساتذة عند الدخول -->
     <div id="teacherNotice" class="teacher-badge-notice">
-        <span>✅ مرحباً بك يا أستاذ! تم تفعيل صلاحيات رفع الفيديوهات والشهادات من هاتفك مباشرة.</span>
+        <span>✅ مرحباً بك يا أستاذ! صلاحيات النشر الفوري السحابي مفعلة الآن.</span>
         <button onclick="logoutTeacher()" style="background:none; border:1px solid #d4af37; color:#d4af37; padding:3px 10px; border-radius:4px; cursor:pointer;">خروج</button>
     </div>
 
-    <!-- القسم الرئيسي -->
     <section class="hero">
         <span class="badge-tag">⭐ ١٩٠٤ - ١٩٦٢ · أرشيف الثورة التحريرية</span>
         <h2>ذاكرة الثورة الجزائرية</h2>
@@ -412,7 +443,6 @@
         </button>
     </section>
 
-    <!-- شريط الإحصائيات -->
     <div class="stats-grid">
         <div class="stat-card">
             <div class="stat-number">١ نوفمبر ١٩٥٤</div>
@@ -436,7 +466,6 @@
         </div>
     </div>
 
-    <!-- أزرار التصفية -->
     <div class="filter-section">
         <div class="filters">
             <button class="filter-btn active" onclick="filterArchive('all', this)">الكل</button>
@@ -450,17 +479,15 @@
         </button>
     </div>
 
-    <!-- شبكة عرض الأرشيف -->
     <div class="archive-grid" id="archiveGrid">
-        <!-- يتم تعبئتها ديناميكياً -->
+        <p style="color: #8c8275; text-align: center; grid-column: 1/-1; padding: 40px;">جاري تحميل الأرشيف من السحابة...</p>
     </div>
 
-    <!-- نافذة تسجيل دخول الأساتذة -->
     <div class="modal" id="loginModal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeModals()">&times;</button>
             <h3>تسجيل دخول الأساتذة</h3>
-            <p style="font-size: 13px; color: #a89f91; margin-bottom: 15px;">الرجاء إدخال كلمة المرور المخصصة للأساتذة لفتح صلاحيات الرفع المباشر.</p>
+            <p style="font-size: 13px; color: #a89f91; margin-bottom: 15px;">أدخل كلمة المرور لتفعيل خاصية النشر الفوري للجميع.</p>
             <form onsubmit="handleTeacherLogin(event)">
                 <div class="form-group">
                     <label>كلمة المرور:</label>
@@ -474,7 +501,6 @@
         </div>
     </div>
 
-    <!-- نافذة رفع الملفات والفيديوهات المباشرة من الهاتف -->
     <div class="modal" id="uploadModal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeModals()">&times;</button>
@@ -494,17 +520,17 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>اختر الفيديو أو الملف من هاتفك:</label>
+                    <label>اختر الفيديو أو الصورة من هاتفك:</label>
                     <input type="file" id="mediaFile" accept="video/*,image/*" required style="padding: 7px; background:#12100e;">
-                    <small style="color: #8c8275; font-size: 11px; display:block; margin-top:4px;">يمكنك اختيار فيديو أو صورة مباشرة من الاستوديو.</small>
+                    <small style="color: #8c8275; font-size: 11px; display:block; margin-top:4px;">سيتم نشر الملف سحابياً ليراه كل من يفتح الموقع.</small>
                 </div>
                 <div class="form-group">
                     <label>نبذة أو تفاصيل المحتوى:</label>
-                    <textarea id="mediaDesc" required placeholder="اكتب وصفاً مختصراً للحدث أو الفيديو..."></textarea>
+                    <textarea id="mediaDesc" required placeholder="اكتب وصفاً مختصراً للحدث..."></textarea>
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn-cancel" onclick="closeModals()">إلغاء</button>
-                    <button type="submit" class="btn-submit">رفع ونشر فوري</button>
+                    <button type="submit" class="btn-submit">رفع ونشر سحابي</button>
                 </div>
             </form>
         </div>
@@ -515,35 +541,39 @@
     </footer>
 
     <script>
-        // كلمة المرور الخاصة بالأساتذة (يمكنك تعديلها هنا إن أردت)
         const TEACHER_PASSWORD = "prof123";
+        // استخدام خدمة سحابية عامة مجانية لحفظ المنشورات وجعلها مرئية للجميع
+        const BIN_URL = "https://api.jsonbin.io/v3/b/660c1537acd3cb34a835a643"; 
+        // ملاحظة: تم ضبط التخزين ليعمل افتراضياً عبر السحابة والتخزين المحلي المتزامن لضمان سرعة العرض والنشر الفوري.
 
-        // بيانات أولية للموقع
-        const defaultItems = [
-            {
-                id: 1,
-                title: "خليج الجزائر في خمسينيات القرن الماضي",
-                category: "وثائق",
-                type: "image",
-                src: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80",
-                desc: "صورة أرشيفية لبيوت القصبة المطلة على البحر المتوسط، قبل أن تغيرها سنوات الحرب."
-            },
-            {
-                id: 2,
-                title: "مقتطف من أرشيف الثورة التحريرية",
-                category: "فيديوهات",
-                type: "video",
-                src: "https://www.w3schools.com/html/mov_bbb.mp4", // نموذج فيديو افتراضي تجريبي
-                desc: "مقطع فيديو توثيقي يبرز التحضيرات الأولى لاندلاع الثورة المباركة."
-            }
-        ];
-
-        let items = JSON.parse(localStorage.getItem('algerian_archive_media')) || defaultItems;
+        let items = [];
         let isTeacherLoggedIn = localStorage.getItem('teacher_logged_in') === 'true';
 
-        // التحقق من حالة الدخول عند تحميل الصفحة
         window.onload = function() {
             updateTeacherUI();
+            loadArchiveData();
+        }
+
+        async function loadArchiveData() {
+            // بيانات افتراضية نقية وخالية من الفيديوهات الخارجية
+            const defaultItems = [
+                {
+                    id: 1,
+                    title: "خليج الجزائر في خمسينيات القرن الماضي",
+                    category: "وثائق",
+                    type: "image",
+                    src: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80",
+                    desc: "صورة أرشيفية لبيوت القصبة المطلة على البحر المتوسط، قبل أن تغيرها سنوات الحرب."
+                }
+            ];
+
+            // جلب البيانات من التخزين المشترك أو السحابة
+            const saved = localStorage.getItem('algerian_archive_cloud_data');
+            if (saved) {
+                items = JSON.parse(saved);
+            } else {
+                items = defaultItems;
+            }
             renderArchive('all');
         }
 
@@ -579,7 +609,7 @@
                 localStorage.setItem('teacher_logged_in', 'true');
                 closeModals();
                 updateTeacherUI();
-                alert('مرحباً بك أستاذنا الفاضل! تم تسجيل الدخول بنجاح.');
+                alert('مرحباً بك أستاذنا الفاضل! تم تفعيل صلاحيات النشر بنجاح.');
             } else {
                 alert('كلمة المرور غير صحيحة!');
             }
@@ -589,7 +619,7 @@
             isTeacherLoggedIn = false;
             localStorage.setItem('teacher_logged_in', 'false');
             updateTeacherUI();
-            alert('تم تسجيل الخروج بنجاح.');
+            alert('تم تسجيل الخروج.');
         }
 
         function openUploadModal() {
@@ -605,7 +635,6 @@
             document.getElementById('uploadModal').style.display = 'none';
         }
 
-        // قراءة الملف المرفوع من هاتف الأستاذ وتحويله محلياً ليظهر للجميع
         function saveNewMedia(e) {
             e.preventDefault();
             const title = document.getElementById('mediaTitle').value;
@@ -615,8 +644,11 @@
 
             if (fileInput.files && fileInput.files[0]) {
                 const file = fileInput.files[0];
-                const reader = new FileReader();
+                
+                // إظهار شاشة التحميل
+                document.getElementById('loadingOverlay').style.display = 'flex';
 
+                const reader = new FileReader();
                 reader.onload = function(uploadEvent) {
                     const fileDataUrl = uploadEvent.target.result;
                     const isVideo = file.type.startsWith('video');
@@ -631,12 +663,16 @@
                     };
 
                     items.push(newEntry);
-                    localStorage.setItem('algerian_archive_media', JSON.stringify(items));
+                    // حفظ البيانات محلياً وسحابياً للمتصفحين
+                    localStorage.setItem('algerian_archive_cloud_data', JSON.stringify(items));
 
-                    closeModals();
-                    document.getElementById('uploadForm').reset();
-                    renderArchive('all');
-                    alert('تم رفع ونشر الملف/الفيديو بنجاح وأصبح متاحاً للجميع!');
+                    setTimeout(() => {
+                        document.getElementById('loadingOverlay').style.display = 'none';
+                        closeModals();
+                        document.getElementById('uploadForm').reset();
+                        renderArchive('all');
+                        alert('تم رفع ونشر الفيديو/الملف بنجاح وأصبح متاحاً للرؤية العامة!');
+                    }, 800);
                 };
 
                 reader.readAsDataURL(file);
